@@ -1,0 +1,168 @@
+
+ <!DOCTYPE html>
+ <html>
+ <head>
+   <title>redux basic example</title>
+    <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
+ </head>
+ <body>
+  <div>
+    <p>
+      di klik sebanyak: <span id="value">?</span> berapa kali
+      <button id="decrement">decrement</button>
+      <button id="increment">increment</button>
+    </p>
+  </div>
+  <div>
+    penjumlahan
+    <input type="number" name="input1" id="input1">
+    <input type="number" name="input2" id="input2">
+    =
+    <span id="hasil"></span>
+    <button id="tombolJumlah">jumlahkan</button>
+  </div>
+  <script type="text/javascript">
+
+    var store = Redux.createStore(reducerFunction);
+
+
+    var valueElement = document.getElementById('value');
+    var valueHasil = document.getElementById('hasil');
+    function render(){
+      valueElement.innerHTML = store.getState().object1;
+      valueHasil.innerHTML = store.getState().propObjHasil;
+    }
+    render();
+    store.subscribe(render);
+
+    function reducerFunction(stateSaatIni, aksi){
+      var stateAwal = {object1: 0, propObjHasil: 0};
+      var stateSelanjutnya = Object.assign({}, stateSaatIni);
+      if (stateSaatIni === undefined){
+        stateSelanjutnya = stateAwal;
+        return stateSelanjutnya;
+      }
+
+      switch (aksi.type){
+        case 'decrement':
+          stateSelanjutnya.object1 = stateSaatIni.object1 - 1;
+          return stateSelanjutnya;
+        case 'increment':
+          stateSelanjutnya.object1 = stateSaatIni.object1 + 1;
+          return stateSelanjutnya;
+        case 'menjumlahkan':
+          stateSelanjutnya.propObjHasil = parseInt(aksi.input1) + parseInt(aksi.input2);
+          return stateSelanjutnya; 
+        default:
+          return stateSelanjutnya;
+      }
+
+    }
+
+    document.getElementById('decrement').addEventListener('click', function(){
+      var aksi = {type: 'decrement'};
+      store.dispatch(aksi);
+    });
+
+    document.getElementById('increment').addEventListener('click', function(){
+      setTimeout(
+          function increment(){
+            var aksi = {type: 'increment'};
+            store.dispatch(aksi);
+          }, 1000
+        );
+
+    });
+
+    document.getElementById('tombolJumlah').addEventListener('click',function(){
+      var a = document.getElementById('input1').value;
+      var b = document.getElementById('input2').value;
+      var aksi = {type: 'menjumlahkan', input1: a, input2: b};
+      store.dispatch(aksi);
+    });
+  </script>
+
+ </body>
+ </html>
+
+<!-- 
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tutorial Redux Store State Reducer Action Dispatch (definisikan default state)</title>
+    STEP 1.1
+    <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
+   end STEP 1.1
+  </head>
+  <body>
+    <div>
+      <p>
+        Diklik Sebanyak: <span id="value">?</span> kali
+        <button id="decrement">Decrease</button>
+        <button id="incrementAsync">Increment</button>
+      </p>
+    </div>
+    <script>
+      // step 1.2
+      console.group('Redux.createStore(REDUCER)')
+      var store = Redux.createStore(counter);
+      console.groupEnd('Redux.createStore(REDUCER)')
+      // ~end step 1.2
+      // step 1.3
+      var valueEl = document.getElementById('value');
+      function render() {
+        console.group('render()')
+        console.log('STATE == store.getState() == ', store.getState())
+        valueEl.innerHTML = store.getState().count;
+        console.groupEnd('render()')
+      }
+      render();
+      store.subscribe(render);
+      // ~end step 1.3
+      // step 2.2
+      function counter(currentState, action) { // REDUCER
+        var DEFAULT_STATE = {count:0};
+        console.group('REDUCER')
+        var nextState = Object.assign({}, currentState);
+        console.log('current STATE == ', currentState)
+        if(currentState === undefined){ // look at Note 1.1
+          nextState = DEFAULT_STATE; // Note 1.2
+          console.log('next STATE == ', nextState)
+          console.groupEnd('REDUCER')
+          return nextState;
+        }
+
+        switch(action.type){
+          case 'DECREMENT': // look at Note 2.1
+            nextState.count = currentState.count - 1;
+            console.log('next STATE == ', nextState)
+            console.groupEnd('REDUCER')
+            return nextState; // Note 2.2
+          default:
+            return nextState;
+        }
+      }
+      // ~end step 2.2
+      document.getElementById('decrement')
+        .addEventListener('click', function () {
+            // step 2.1
+            var action = {type: 'DECREMENT'}; // Note 2.1
+            console.log("");
+            console.group("store.dispatch(action)")
+            console.info("ACTION == ", action)
+            store.dispatch(action);
+            console.groupEnd("store.dispatch(action)")
+            // ~end step 2.1
+        })
+      document.getElementById('incrementAsync')
+        .addEventListener('click', function () {
+          setTimeout(
+            function increment () {
+              valueEl.innerHTML = parseInt(valueEl.innerHTML) + 1;
+            }
+          , 1000); // execute increment () method after 1000 millisecond or 1 second
+        })
+    </script>
+  </body>
+</html>
+ -->

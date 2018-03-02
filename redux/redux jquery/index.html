@@ -1,0 +1,65 @@
+
+ <!DOCTYPE html>
+ <html>
+ <head>
+   <title>redux basic example</title>
+   <script type="text/javascript" src="_fakeserverapi/index.js"></script>
+    <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="action/index.js"></script>
+    <script type="text/javascript" src="reducer/kurangTambah.js"></script>
+    <script type="text/javascript" src="reducer/jumlah.js"></script>
+    <script type="text/javascript" src="reducer/index.js"></script>
+    <script type="text/javascript" src="middleware/index.js"></script>
+ </head>
+ <body>
+  <div>
+    <p>
+      di klik sebanyak: <span id="value">?</span> berapa kali
+      <button id="decrement">decrement</button>
+      <button id="increment">increment</button>
+      <span id="status"></span>
+    </p>
+  </div>
+  <div>
+    penjumlahan
+    <input type="number" name="input1" id="input1">
+    <input type="number" name="input2" id="input2">
+    =
+    <span id="hasil"></span>
+    <button id="tombolJumlah">jumlahkan</button>
+  </div>
+  <div>
+  gambar
+  <button id="carigambar">cari gambar</button>
+  <div id="statusgambar"></div>
+  <div id="listgambar"></div>
+  </div>
+  <script type="text/javascript">
+
+
+
+    $('#decrement').click(function(){
+      store.dispatch(kurangi()); // action creator
+    });
+
+    document.getElementById('increment').addEventListener('click', function(){
+      setTimeout(
+          function increment(){
+            store.dispatch(asyncTambah);
+          }, 1000
+        );
+
+    });
+
+    document.getElementById('tombolJumlah').addEventListener('click',function(){
+      var a = document.getElementById('input1').value;
+      var b = document.getElementById('input2').value;
+      store.dispatch(menjumlahkan(a, b));
+    });
+  </script>
+
+  <script type="text/javascript" src="index.js"></script>
+
+ </body>
+ </html>
